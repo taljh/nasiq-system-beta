@@ -5,10 +5,7 @@ interface InputProps {
   id?: string;
   name?: string;
   placeholder?: string;
-<<<<<<< HEAD
-=======
   defaultValue?: string | number;
->>>>>>> 073812b73214eab5f5e3b88210be84269ceb50df
   value?: string | number;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
@@ -18,12 +15,7 @@ interface InputProps {
   disabled?: boolean;
   success?: boolean;
   error?: boolean;
-<<<<<<< HEAD
   hint?: string;
-=======
-  hint?: string; // Optional hint text
-  required?: boolean;
->>>>>>> 073812b73214eab5f5e3b88210be84269ceb50df
 }
 
 const Input: FC<InputProps> = ({
@@ -31,10 +23,7 @@ const Input: FC<InputProps> = ({
   id,
   name,
   placeholder,
-<<<<<<< HEAD
-=======
   defaultValue,
->>>>>>> 073812b73214eab5f5e3b88210be84269ceb50df
   value,
   onChange,
   className = "",
@@ -45,7 +34,6 @@ const Input: FC<InputProps> = ({
   success = false,
   error = false,
   hint,
-  required = false,
 }) => {
   let inputClasses = `h-11 w-full rounded-lg border appearance-none px-4 py-2.5 text-sm shadow-theme-xs placeholder:text-gray-400 focus:outline-hidden focus:ring-3 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800 ${className}`;
 
@@ -66,29 +54,17 @@ const Input: FC<InputProps> = ({
         id={id}
         name={name}
         placeholder={placeholder}
-<<<<<<< HEAD
-=======
         defaultValue={defaultValue}
->>>>>>> 073812b73214eab5f5e3b88210be84269ceb50df
         value={value}
         onChange={onChange}
         min={min}
         max={max}
         step={step}
         disabled={disabled}
-        required={required}
         className={inputClasses}
       />
       {hint && (
-        <p
-          className={`mt-1.5 text-xs ${
-            error
-              ? "text-error-500"
-              : success
-              ? "text-success-500"
-              : "text-gray-500"
-          }`}
-        >
+        <p className={`mt-1.5 text-xs ${error ? "text-error-500" : success ? "text-success-500" : "text-gray-500"}`}>
           {hint}
         </p>
       )}
