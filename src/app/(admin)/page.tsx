@@ -21,7 +21,7 @@ export default function Ecommerce() {
 
         <MonthlySalesChart />
       </div>
-
+      <p className="text-center text-green-500">✅ هذا تعديل تجريبي!</p>
       <div className="col-span-12 xl:col-span-5">
         <MonthlyTarget />
       </div>
