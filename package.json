@@ -22,6 +22,10 @@
     "apexcharts": "^4.3.0",
     "autoprefixer": "^10.4.20",
     "firebase": "^11.6.0",
+<<<<<<< HEAD
+=======
+    "firebase-admin": "^13.2.0",
+>>>>>>> 073812b73214eab5f5e3b88210be84269ceb50df
     "flatpickr": "^4.6.13",
     "next": "15.2.3",
     "react": "^19.0.0",

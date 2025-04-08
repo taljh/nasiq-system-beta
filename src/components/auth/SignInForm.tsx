@@ -5,12 +5,69 @@ import Label from "@/components/form/Label";
 import Button from "@/components/ui/button/Button";
 import { ChevronLeftIcon, EyeCloseIcon, EyeIcon } from "@/icons";
 import Link from "next/link";
+<<<<<<< HEAD
 import { signInWithEmailAndPassword } from "firebase/auth";
+=======
+import { useRouter } from "next/navigation";
+>>>>>>> 073812b73214eab5f5e3b88210be84269ceb50df
 import React, { useState } from "react";
+import { auth } from "@/firebase/config";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function SignInForm() {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  // دالة تسجيل الدخول
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setSuccess("");
+    
+    if (!email || !password) {
+      setError("يرجى إدخال البريد الإلكتروني وكلمة المرور");
+      return;
+    }
+    
+    setLoading(true);
+    
+    try {
+      // استخدام Firebase Auth للتحقق من بيانات المستخدم
+      await signInWithEmailAndPassword(auth, email, password);
+      
+      // تسجيل الدخول بنجاح
+      setSuccess("تم تسجيل الدخول بنجاح!");
+      
+      // إعادة توجيه المستخدم إلى صفحة dashboard
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
+      
+    } catch (error: any) {
+      // معالجة أخطاء تسجيل الدخول
+      let errorMessage = "حدث خطأ أثناء تسجيل الدخول";
+      
+      if (error.code === "auth/invalid-credential") {
+        errorMessage = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
+      } else if (error.code === "auth/user-not-found") {
+        errorMessage = "لم يتم العثور على مستخدم بهذا البريد الإلكتروني";
+      } else if (error.code === "auth/wrong-password") {
+        errorMessage = "كلمة المرور غير صحيحة";
+      } else if (error.code === "auth/too-many-requests") {
+        errorMessage = "تم تعطيل الحساب مؤقتًا بسبب محاولات تسجيل دخول متكررة";
+      }
+      
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col flex-1 lg:w-1/2 w-full">
       <div className="w-full max-w-md sm:pt-10 mx-auto mb-5">
@@ -32,6 +89,19 @@ export default function SignInForm() {
               Enter your email and password to sign in!
             </p>
           </div>
+          
+          {/* رسائل النجاح والخطأ */}
+          {error && (
+            <div className="p-3 mb-4 text-sm text-white bg-error-500 rounded-lg">
+              {error}
+            </div>
+          )}
+          {success && (
+            <div className="p-3 mb-4 text-sm text-white bg-success-500 rounded-lg">
+              {success}
+            </div>
+          )}
+          
           <div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5">
               <button className="inline-flex items-center justify-center gap-3 py-3 text-sm font-normal text-gray-700 transition-colors bg-gray-100 rounded-lg px-7 hover:bg-gray-200 hover:text-gray-800 dark:bg-white/5 dark:text-white/90 dark:hover:bg-white/10">
@@ -85,13 +155,19 @@ export default function SignInForm() {
                 </span>
               </div>
             </div>
-            <form>
+            <form onSubmit={handleSignIn}>
               <div className="space-y-6">
                 <div>
                   <Label>
                     Email <span className="text-error-500">*</span>{" "}
                   </Label>
-                  <Input placeholder="info@gmail.com" type="email" />
+                  <Input 
+                    placeholder="info@gmail.com" 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
                 </div>
                 <div>
                   <Label>
@@ -101,6 +177,9 @@ export default function SignInForm() {
                     <Input
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
                     />
                     <span
                       onClick={() => setShowPassword(!showPassword)}
@@ -129,8 +208,13 @@ export default function SignInForm() {
                   </Link>
                 </div>
                 <div>
-                  <Button className="w-full" size="sm">
-                    Sign in
+                  <Button 
+                    className="w-full" 
+                    size="sm" 
+                    type="submit"
+                    disabled={loading}
+                  >
+                    {loading ? "جاري تسجيل الدخول..." : "Sign in"}
                   </Button>
                 </div>
               </div>

@@ -1,10 +1,28 @@
 {
   "hosting": {
+<<<<<<< HEAD
     "public": ".next",
+=======
+    "public": "out",
+>>>>>>> 073812b73214eab5f5e3b88210be84269ceb50df
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+<<<<<<< HEAD
     ]
+=======
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+>>>>>>> 073812b73214eab5f5e3b88210be84269ceb50df
   }
 }
